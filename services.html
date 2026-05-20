@@ -62,6 +62,57 @@
         .btn-inquire-now { background: var(--sotc-navy); color: var(--white); border: none; padding: 12px 30px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-top: 15px; }
 
         footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--sotc-gold); }
+        @media (max-width: 1024px) {
+    .services-grid { 
+        grid-template-columns: repeat(2, 1fr); /* Collapses to 2 clean cards columns layout on tablets */
+    }
+}
+
+/* Small Tablets, Large Phones, & Device Orientation Flips */
+@media (max-width: 900px) {
+    .builder-grid { 
+        grid-template-columns: repeat(2, 1fr); /* Simplifies inputs selector into a clean 2x3 column pair matrix */
+    }
+    .btn-calculate { 
+        grid-column: span 2; 
+    }
+}
+
+/* Smartphone Portrait Viewport Adapters */
+@media (max-width: 820px) {
+    .header-wrapper { 
+        flex-direction: column; /* Moves menu options below branding rows on mobile devices */
+        text-align: center; 
+        padding: 15px 10px; 
+    }
+    nav { 
+        margin: 10px auto; 
+        margin-right: auto; 
+    }
+    nav ul { 
+        justify-content: center; 
+        gap: 15px; 
+    }
+}
+
+/* Ultra Compact Smart Viewports (Fit to Screen) */
+@media (max-width: 600px) {
+    .services-grid, .builder-grid { 
+        grid-template-columns: 1fr; /* Flattens cards rows into straight single block layout streams */
+    }
+    .btn-calculate { 
+        grid-column: span 1; 
+    }
+    .builder-wrapper { 
+        padding: 25px 15px; /* Shrinks container margins to prevent screen cut-offs */
+    }
+    .services-banner h1 {
+        font-size: 26px; /* Dynamically resizes headers font constraints on narrow displays */
+    }
+    .section-title {
+        font-size: 22px;
+    }
+}
     </style>
 </head>
 <body>
