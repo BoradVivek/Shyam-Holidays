@@ -64,6 +64,50 @@
         .stream-text { font-size: 13px; color: #555; margin-top: 5px; }
 
         footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 60px; }
+        @media (max-width: 1024px) {
+    .contact-container {
+        grid-template-columns: 1fr; /* Head office details stack completely above the form box */
+        gap: 30px;
+    }
+}
+
+/* Medium Handsets & Transverse Orientation Flips */
+@media (max-width: 900px) {
+    .reviews-split-grid {
+        grid-template-columns: 1fr; /* Converts the review writing dock to stand above the timelines layout */
+        gap: 30px;
+    }
+}
+
+/* Compact Mobile Devices Viewport Boundary Intercepts */
+@media (max-width: 820px) {
+    .header-wrapper { 
+        flex-direction: column; /* Centers logo and drops the main links grid sequentially underneath */
+        text-align: center; 
+        padding: 15px 10px; 
+    }
+    nav { 
+        margin: 10px auto; 
+        margin-right: auto; 
+    }
+    nav ul { 
+        justify-content: center; 
+        gap: 15px; 
+    }
+    .contact-banner h1 {
+        font-size: 26px; /* Scales banner header text smoothly to avoid clipping */
+    }
+}
+
+/* Small Smartphone Viewports Adjustment Firewall */
+@media (max-width: 600px) {
+    .info-card, .form-card, .reviews-split-grid {
+        padding: 20px 15px; /* Reduces excessive inner gaps to save space on mobile displays */
+    }
+    .section-title {
+        font-size: 22px;
+    }
+}
         
     </style>
 </head>
