@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyam Holidays | Travel Operations Hub & AI Core</title>
+        <script type="module" src="./firebase-auth.js"></script>
+
+    <style>
+        :root {
+            --shyam-navy: #00254d;
+            --shyam-gold: #f2b705;
+            --shyam-blue: #0066cc;
+            --text-dark: #333333;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+            --terminal-dark: #1e1e24;
+            --success-green: #2ecc71;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); }
+
+        header {
+            background: var(--white); border-bottom: 3px solid var(--shyam-navy);
+            position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header-wrapper {
+            max-width: 1300px; margin: 0 auto; padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-container img { max-height: 65px; object-fit: contain; }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--shyam-navy); font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 12px 0; }
+        nav ul li a.active { color: var(--shyam-blue); border-bottom: 3px solid var(--shyam-blue); }
+
+        .workspace-container {
+            max-width: 1300px; margin: 40px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+        }
+        .full-width-row { grid-column: span 2; }
+        
+        .panel-card {
+            background: var(--white); padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+            display: flex; flex-direction: column;
+        }
+        .panel-title {
+            font-size: 20px; color: var(--shyam-navy); text-transform: uppercase;
+            margin-bottom: 20px; border-bottom: 2px solid var(--shyam-gold); padding-bottom: 8px;
+            font-weight: 800; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .analytics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 10px; }
+        .metric-box { background: var(--bg-light); padding: 20px; border-radius: 6px; text-align: center; border-left: 4px solid var(--shyam-blue); }
+        .metric-box h3 { font-size: 13px; text-transform: uppercase; color: #666; }
+        .metric-box p { font-size: 26px; font-weight: 800; color: var(--shyam-navy); margin-top: 5px; }
+
+        .ledger-table-wrapper { max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { background: var(--shyam-navy); color: white; padding: 12px; font-weight: 700; text-transform: uppercase; font-size: 12px; }
+        td { padding: 12px; border-bottom: 1px solid #edf2f7; color: #444; }
+        tr:nth-child(even) { background: #f8fafc; }
+        .status-badge { background: var(--success-green); color: white; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 3px; }
+
+        .chatbot-workspace { height: 400px; display: flex; flex-direction: column; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; }
+        .chat-screen { flex-grow: 1; padding: 20px; background: #f8fafc; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .chat-row { display: flex; width: 100%; }
+        .chat-row.bot { justify-content: flex-start; }
+        .chat-row.user { justify-content: flex-end; }
+        .bubble { max-width: 75%; padding: 10px 14px; border-radius: 8px; font-size: 13.5px; line-height: 1.5; }
+        .chat-row.bot .bubble { background: #e2e8f0; color: var(--shyam-navy); font-weight: 500; }
+        .chat-row.user .bubble { background: var(--shyam-blue); color: white; }
+        .chat-input-row { display: flex; border-top: 1px solid var(--border-color); background: white; }
+        .chat-input-row input { flex-grow: 1; padding: 15px; border: none; outline: none; font-size: 14px; }
+        .btn-send-msg { background: var(--shyam-navy); color: white; border: none; padding: 0 25px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+        .btn-send-msg:hover { background: var(--shyam-blue); }
+
+        .btn-action-trigger { background: #ef4444; color: white; border: none; padding: 6px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; }
+        .log-terminal { background: var(--terminal-dark); color: #00ff66; font-family: 'Courier New', Courier, monospace; padding: 15px; border-radius: 4px; height: 180px; overflow-y: auto; font-size: 12.5px; line-height: 1.6; }
+
+        footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 40px; }
+    </style>
+    
+</head>
+<body>
+
+    <header>
+        <div class="header-wrapper">
+            <div class="logo-container">
+                <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                <div id="logo-fallback" style="display:none; font-size:20px; font-weight:800; color:var(--shyam-navy);">SHYAM <span style="color:var(--shyam-blue)">HOLIDAYS</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a class="active" href="dashboard.html">Ops Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="workspace-container">
+        
+        <div class="panel-card full-width-row">
+            <div class="panel-title">📊 Travel Operations Real-Time Metrics Overview</div>
+            <div class="analytics-grid">
+                <div class="metric-box">
+                    <h3>Subcontinental Active Flights</h3>
+                    <p id="metric-flights">24 Active</p>
+                </div>
+                <div class="metric-box">
+                    <h3>Visa Applications Queue</h3>
+                    <p>89 Processing</p>
+                </div>
+                <div class="metric-box">
+                    <h3>Total Logged Bookings</h3>
+                    <p id="metric-total-count">0 Bookings</p>
+                </div>
+                <div class="metric-box">
+                    <h3>System Node Connection</h3>
+                    <p style="color: var(--success-green);">Online (Secure)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-card">
+            <div class="panel-title">
+                <span>📁 Client Booking Ledger (Local Storage History)</span>
+                <button class="btn-action-trigger" onclick="wipeBookingHistoryLedger()">Wipe Ledger Memory</button>
+            </div>
+            <div class="ledger-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Circuit Target Package</th>
+                            <th>Timestamp Logged</th>
+                            <th>Verification Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="storage-history-rows"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel-card">
+            <div class="panel-title">🤖 Shyam Holidays AI Assistant Terminal Core</div>
+            <div class="chatbot-workspace">
+                <div class="chat-screen" id="chat-viewport">
+                    <div class="chat-row bot">
+                        <div class="bubble">Greetings from Shyam Holidays Control Core! Ask me regarding our 50 Domestic itineraries, 30 International horizons, flight status tracking or our office coordinates.</div>
+                    </div>
+                </div>
+                <div class="chat-input-row">
+                    <input type="text" id="chat-user-input" placeholder="Type query sequence here..." onkeypress="handleChatKeyPress(event)">
+                    <button class="btn-send-msg" onclick="processChatbotDialogueSession()">Transmit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-card full-width-row">
+            <div class="panel-title">💻 Live Security Handshake System Telemetry Logs</div>
+            <div class="log-terminal" id="terminal-stream-box">
+                [SYSTEM SUCCESS] 2026-05-19 16:20:00 - Security ledger node mapped to +91 90161 15989.<br>
+                [SYSTEM INFO] 2026-05-19 16:20:01 - Core database initialized connecting shyamholidays19@gmail.com data modules safely.
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. Aligned precisely to match internal compliance layouts.
+    </footer>
+
+    <script src="destinations-data.js"></script>
+    <script>
+        window.onload = function() {
+            populateBookingHistoryLedgerGrid();
+            initializeSystemTelemetryLogsEngine();
+            
+            if(!localStorage.getItem('shyam_booking_ledger_history')) {
+                const sampleArray = [
+                    { id: "TXN-77391", package: "Swiss Alps Majestic Peaks Tour", timestamp: "2026-05-18 11:22", status: "Verified" },
+                    { id: "TXN-10294", package: "Kerala Backwaters Luxury Hills", timestamp: "2026-05-19 14:05", status: "Verified" }
+                ];
+                localStorage.setItem('shyam_booking_ledger_history', JSON.stringify(sampleArray));
+                populateBookingHistoryLedgerGrid();
+            }
+        };
+
+        function populateBookingHistoryLedgerGrid() {
+            const rowContainer = document.getElementById('storage-history-rows');
+            const counterDisplay = document.getElementById('metric-total-count');
+            rowContainer.innerHTML = '';
+
+            let rawData = localStorage.getItem('shyam_booking_ledger_history');
+            let parsedRecords = rawData ? JSON.parse(rawData) : [];
+
+            counterDisplay.innerText = `${parsedRecords.length} Bookings`;
+
+            if(parsedRecords.length === 0) {
+                rowContainer.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#999; font-weight:bold; padding:30px;">Local Storage ledger memory empty. No bookings logged.</td></tr>`;
+                return;
+            }
+
+            parsedRecords.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><code>${record.id}</code></td>
+                    <td><strong>${record.package}</strong></td>
+                    <td>${record.timestamp}</td>
+                    <td><span class="status-badge">${record.status}</span></td>
+                `;
+                rowContainer.appendChild(row);
+            });
+        }
+
+        function wipeBookingHistoryLedger() {
+            if(confirm("Confirm action command to clear all local storage browser tracking variables?")) {
+                localStorage.removeItem('shyam_booking_ledger_history');
+                populateBookingHistoryLedgerGrid();
+                appendTerminalStreamLog("[ACTION COMMAND] Local Storage tracking historical buffer purged manually.");
+            }
+        }
+
+        function processChatbotDialogueSession() {
+            const inputField = document.getElementById('chat-user-input');
+            const rawQuery = inputField.value.trim();
+            const cleanQuery = rawQuery.toLowerCase();
+            if(!rawQuery) return;
+
+            renderChatBubble(rawQuery, 'user');
+            inputField.value = '';
+
+            setTimeout(() => {
+                let botResponseText = "";
+                
+                if (cleanQuery.includes('flight') || cleanQuery.includes('status')) {
+                    botResponseText = "Current transit data arrays indicate that our outbound Rajkot charter and domestic connecting routes are running perfectly on time. All active logs match real-time airport schedules.";
+                } else if (cleanQuery.includes('contact') || cleanQuery.includes('phone') || cleanQuery.includes('email')) {
+                    botResponseText = "You can communicate directly with our main operational center by calling our direct office line at +91 90161 15989 or email us at shyamholidays19@gmail.com.";
+                } else if (cleanQuery.includes('count') || cleanQuery.includes('how many') || cleanQuery.includes('destination')) {
+                    botResponseText = "Our active registry matrix currently holds exactly 50 Domestic subcontinental circuits inside India and 30 outbound Premium International horizons. Navigate to destinations.html to check the active filter sheets.";
+                } else if (cleanQuery.includes('address') || cleanQuery.includes('rajkot') || cleanQuery.includes('location')) {
+                    botResponseText = "Our central operational building is located at Shyam Holidays Corporate Plaza, Opposite Imperial Palace Junction, Yagnik Road, Rajkot - 360001, Gujarat, India.";
+                } else {
+                    botResponseText = "I have cross-checked your inquiry string through our system clusters. For specialized customization queries, feel free to use the custom engine builder inside services.html or submit a lead entry form inside contact.html!";
+                }
+
+                renderChatBubble(botResponseText, 'bot');
+                appendTerminalStreamLog(`[AI CORE HANDSHAKE] Query processed: "${rawQuery.substring(0, 20)}..."`);
+            }, 550);
+        }
+
+        function renderChatBubble(msgText, partyType) {
+            const viewport = document.getElementById('chat-viewport');
+            const row = document.createElement('div');
+            row.className = `chat-row ${partyType}`;
+            row.innerHTML = `<div class="bubble">${msgText}</div>`;
+            viewport.appendChild(row);
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+
+        function handleChatKeyPress(event) {
+            if(event.key === 'Enter') processChatbotDialogueSession();
+        }
+
+        function appendTerminalStreamLog(logText) {
+            const terminal = document.getElementById('terminal-stream-box');
+            let timestampString = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            terminal.innerHTML += `<br>[INFO] ${timestampString} - ${logText}`;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function initializeSystemTelemetryLogsEngine() {
+            setInterval(() => {
+                let mockupLogsPool = [
+                    "Checking flight status updates across international airline databases...",
+                    "Syncing client tracking history buffers with local storage arrays...",
+                    "Telemetry health check stable: connection matrix completely secure.",
+                    "Outbound terminal inquiries verification script running successfully..."
+                ];
+                let chosenLogIndex = Math.floor(Math.random() * mockupLogsPool.length);
+                appendTerminalStreamLog(mockupLogsPool[chosenLogIndex]);
+                
+                let variableFlightDelta = 20 + Math.floor(Math.random() * 8);
+                const flightEl = document.getElementById('metric-flights');
+                if(flightEl) flightEl.innerText = `${variableFlightDelta} Active`;
+            }, 6000);
+        }
+    </script>
+</body>
+</html>

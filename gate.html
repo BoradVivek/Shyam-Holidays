@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyam Holidays | Access Gateway Portal</title>
+    <style>
+        :root {
+            --shyam-navy: #00254d;
+            --shyam-gold: #f2b705;
+            --shyam-blue: #0066cc;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        
+        .gate-card { background: var(--white); width: 100%; max-width: 450px; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,37,77,0.15); border-top: 5px solid var(--shyam-navy); }
+        .logo-box { text-align: center; margin-bottom: 25px; }
+        .logo-box img { max-height: 100px; object-fit: contain; }
+        
+        .tab-row { display: flex; margin-bottom: 25px; border-bottom: 2px solid #edf2f7; text-align: center; }
+        .tab { flex: 1; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer; color: #777; text-transform: uppercase; transition: 0.2s; }
+        .tab.active { color: var(--shyam-blue); border-bottom: 2px solid var(--shyam-blue); }
+        
+        form { display: flex; flex-direction: column; gap: 15px; }
+        label { font-size: 11px; font-weight: 700; color: var(--shyam-navy); text-transform: uppercase; letter-spacing: 0.5px; }
+        input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+        input:focus { border-color: var(--shyam-blue); }
+        
+        button { width: 100%; padding: 14px; background: var(--shyam-blue); color: var(--white); border: none; font-weight: bold; text-transform: uppercase; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 10px; transition: background 0.2s; }
+        button:hover { background: #004fad; }
+        .back-home { display: block; text-align: center; margin-top: 20px; font-size: 13px; color: #555; text-decoration: none; font-weight: 600; }
+        .back-home:hover { color: var(--shyam-blue); }
+    </style>
+</head>
+<body>
+
+    <div class="gate-card">
+        <div class="logo-box">
+            <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <div id="logo-fallback" style="display:none; font-size:22px; font-weight:800; color:var(--shyam-navy);">SHYAM <span style="color:var(--shyam-blue)">HOLIDAYS</span></div>
+        </div>
+
+        <div class="tab-row">
+            <div id="tab-login" class="tab active" onclick="window.switchGateMode('login')">Sign In</div>
+            <div id="tab-register" class="tab" onclick="window.switchGateMode('register')">Register</div>
+            <div id="tab-owner" class="tab" onclick="window.switchGateMode('owner')">Owner</div>
+        </div>
+
+        <h3 id="gate-title" style="font-size: 16px; color: var(--shyam-navy); margin-bottom: 20px; text-transform: uppercase; text-align: center;">Secure Account Login</h3>
+        
+        <form id="gate-form">
+            <div>
+                <label>Email Address</label>
+                <input type="email" id="gate-email" placeholder="name@domain.com" required>
+            </div>
+            <div>
+                <label>Secure Password</label>
+                <input type="password" id="gate-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" id="gate-submit-btn">Verify & Mount Session</button>
+        </form>
+
+        <a href="index.html" class="back-home">← Return to Homepage Overview</a>
+    </div>
+
+    <script type="module">
+        import { auth, db } from "./firebase-auth.js";
+        import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        let currentMode = "login";
+
+        // EXPLICIT GLOBAL WINDOW BINDING FIXES CLICKING INACCESSIBILITY
+        window.switchGateMode = function(targetMode) {
+            currentMode = targetMode;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const btn = document.getElementById('gate-submit-btn');
+            const title = document.getElementById('gate-title');
+            const emailInput = document.getElementById('gate-email');
+
+            if (targetMode === 'login') {
+                document.getElementById('tab-login').classList.add('active');
+                title.innerText = "Secure Account Login";
+                btn.innerText = "Verify & Mount Session";
+                emailInput.value = "";
+            } else if (targetMode === 'register') {
+                document.getElementById('tab-register').classList.add('active');
+                title.innerText = "Create Traveler Profile";
+                btn.innerText = "Register New Account";
+                emailInput.value = "";
+            } else if (targetMode === 'owner') {
+                document.getElementById('tab-owner').classList.add('active');
+                title.innerText = "Owner Command Deck Verification";
+                btn.innerText = "Authorize Admin Session";
+                emailInput.value = "owner@shyamholidays.com";
+            }
+        };
+
+        // SUBMIT ENGINE GATEWAY TRIGGER
+        document.getElementById('gate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('gate-email').value.trim();
+            const password = document.getElementById('gate-password').value;
+
+            try {
+                if (currentMode === 'owner') {
+                    // Force owner email safety bypass verification checking
+                    if (email === "owner@shyamholidays.com") {
+                        await signInWithEmailAndPassword(auth, email, password);
+                        alert("🔒 Admin Clearance Authorized.\nRouting to master operations dashboard hub...");
+                        window.location.href = "dashboard.html";
+                        return;
+                    } else {
+                        alert("❌ Unauthorized Admin Email ID sequence used.");
+                    }
+                } else if (currentMode === 'login') {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("🎉 Welcome back to Shyam Holidays!");
+                    window.location.href = "index.html";
+                } else if (currentMode === 'register') {
+                    const newAccount = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(doc(db, "users", newAccount.user.uid), {
+                        email: email,
+                        role: "user",
+                        registrationTimestamp: new Date().toISOString()
+                    });
+                    alert("🚀 Profile setup complete! Welcome onto your dynamic travel space.");
+                    window.location.href = "index.html";
+                }
+            } catch (error) {
+                let cleanMsg = error.message;
+                if (error.code === 'auth/invalid-credential') cleanMsg = "Incorrect email address or password combination.";
+                if (error.code === 'auth/email-already-in-use') cleanMsg = "This email address registry is already linked to an active account profile.";
+                alert(`Authentication Check Failed:\n${cleanMsg}`);
+            }
+        });
+
+        // Parse query string configurations if directed via active route guards
+        if (new URLSearchParams(window.location.search).get('auth_trigger') === 'true') {
+            window.switchGateMode('login');
+        }
+    </script>
+</body>
+</html>

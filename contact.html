@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module" src="./firebase-auth.js"></script>
+
+    <title>Shyam Holidays | Contact Center & Customer Support</title>
+    <style>
+        :root {
+            --shyam-navy: #00254d;
+            --shyam-gold: #f2b705;
+            --shyam-blue: #0066cc;
+            --text-dark: #333333;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); }
+
+        .ticker-bar { background: var(--shyam-gold); color: var(--shyam-navy); font-weight: 700; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; }
+        .ticker-slider { display: inline-block; padding-left: 100%; animation: shyam-ticker 35s linear infinite; }
+        @keyframes shyam-ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
+        header { background: var(--white); border-bottom: 3px solid var(--shyam-navy); position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header-wrapper { max-width: 1300px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container img { max-height: 65px; object-fit: contain; }
+        
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--shyam-navy); font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 12px 0; }
+        nav ul li a.active { color: var(--shyam-blue); border-bottom: 3px solid var(--shyam-blue); }
+
+        .contact-banner {
+            background: linear-gradient(rgba(0,37,77,0.6), rgba(0,21,43,0.7)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--white); text-align: center;
+        }
+        .contact-banner h1 { font-size: 38px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+
+        .contact-container { max-width: 1300px; margin: 50px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .section-title { font-size: 24px; color: var(--shyam-navy); text-transform: uppercase; margin-bottom: 25px; border-bottom: 2px solid var(--shyam-gold); padding-bottom: 8px; }
+        .info-card, .form-card { background: var(--white); padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+
+        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
+        .form-group label { font-size: 12px; font-weight: 700; color: #555; text-transform: uppercase; margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; outline: none; }
+        .btn-submit-inquiry { width: 100%; background: var(--shyam-blue); color: var(--white); border: none; padding: 14px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-size: 14px; }
+
+        .info-row { margin-bottom: 20px; line-height: 1.6; }
+        .info-row strong { color: var(--shyam-navy); text-transform: uppercase; font-size: 13px; display: block; margin-bottom: 4px; }
+        .info-row p, .info-row a { font-size: 15px; color: #444; text-decoration: none; }
+        .info-row a:hover { color: var(--shyam-blue); }
+
+        .reviews-engine-section { max-width: 1300px; margin: 20px auto 60px auto; padding: 0 20px; }
+        .reviews-split-grid { display: grid; grid-template-columns: 400px 1fr; gap: 40px; background: var(--white); padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .review-post-box input, .review-post-box select, .review-post-box textarea { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 4px; outline: none; }
+        .btn-post-review { width: 100%; background: var(--shyam-navy); color: var(--white); border: none; padding: 12px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; }
+
+        .reviews-stream-box { max-height: 380px; overflow-y: auto; padding-right: 15px; }
+        .stream-item { padding: 15px 0; border-bottom: 1px solid #edf2f7; }
+        .star-rating-row { color: var(--shyam-gold); font-size: 14px; margin-bottom: 4px; }
+        .stream-author { font-size: 14px; font-weight: 700; color: var(--shyam-navy); }
+        .stream-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 60px; }
+        
+    </style>
+</head>
+<body>
+
+    <div class="ticker-bar">
+        <div class="ticker-slider">
+            ✨ CONNECT TO CENTRAL COMMUNICATIONS MANAGEMENT DIRECTLY VIA OFFICIAL REGISTERED EMAIL CHANNELS ✨
+        </div>
+    </div>
+
+    <header>
+        <div class="header-wrapper">
+            <div class="logo-container">
+                <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                <div id="logo-fallback" style="display:none; font-size:20px; font-weight:800; color:var(--shyam-navy);">SHYAM <span style="color:var(--shyam-blue)">HOLIDAYS</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a class="active" href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="contact-banner">
+        <h1>Contact Our Travel Desk</h1>
+    </section>
+
+    <div class="contact-container">
+        <div class="info-card">
+            <h2 class="section-title">Headquarters Location</h2>
+            <div class="info-row">
+                <strong>🏢 Office Address Location</strong>
+                <p>
+                    Shyam Holidays Corporate Plaza,<br>
+                    Opposite Imperial Palace Junction, Yagnik Road,<br>
+                    Rajkot - 360001, Gujarat, India
+                </p>
+            </div>
+            <div class="info-row">
+                <strong>📞 Toll-Free Customer Line</strong>
+                <a href="tel:18008902234">1800-890-2234 (Support Hub)</a>
+            </div>
+            <div class="info-row">
+                <strong>☎️ Core Operations Wire Terminal</strong>
+                <a href="tel:9016115989">+91 90161 15989</a>
+            </div>
+            <div class="info-row">
+                <strong>✉️ Administrative Gateway Email</strong>
+                <a href="mailto:shyamholidays19@gmail.com">shyamholidays19@gmail.com</a>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="section-title">Send An Inquiry</h2>
+            <form onsubmit="processFormInquirySubmission(event)">
+                <div class="form-group">
+                    <label>Full Legal Name</label>
+                    <input type="text" placeholder="e.g., Vivek Patel" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Contact Number</label>
+                    <input type="tel" placeholder="e.g., +91 90161 15989" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="e.g., shyamholidays19@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Target Destination Interest</label>
+                    <select id="inquiry-dropdown-loader" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Custom Travel Requirements</label>
+                    <textarea rows="4" placeholder="Specify preferences..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit-inquiry">Transmit Inquiry Form</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="reviews-engine-section">
+        <h2 class="section-title" style="text-align: left;">Customer Ratings &amp; Reviews</h2>
+        <div class="reviews-split-grid">
+            <div class="review-post-box">
+                <h3 style="font-size:16px; margin-bottom:15px; color:var(--shyam-navy); text-transform:uppercase;">Post Client Review</h3>
+                <form onsubmit="processReviewSubmission(event)">
+                    <input type="text" id="form-rev-author" placeholder="Traveler Name" required>
+                    <select id="form-rev-stars" required>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 Stars Rating</option>
+                        <option value="4">⭐⭐⭐⭐ 4 Stars Rating</option>
+                    </select>
+                    <textarea id="form-rev-text" rows="4" placeholder="Share experience..." required></textarea>
+                    <button type="submit" class="btn-post-review">Post Review</button>
+                </form>
+            </div>
+            <div class="reviews-stream-box" id="reviews-injection-stream">
+                <div class="stream-item">
+                    <div class="star-rating-row">⭐⭐⭐⭐⭐</div>
+                    <span class="stream-author">- Mahendra Jadeja (Rajkot)</span>
+                    <p class="stream-text"> Flawless arrangements. The luxury categorization matched the pricing precisely. Highly recommended!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. Built and aligned precisely to match custom interface parameters.
+    </footer>
+
+    <script src="destinations-data.js"></script>
+    <script src="destinations-data.js"></script>
+
+    <script type="module">
+        import { auth, db } from "./firebase-auth.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        window.processFormInquirySubmission = async function(event) {
+            event.preventDefault();
+            const currentUser = auth.currentUser;
+
+            // Extract values directly from layout input element objects safely
+            const formElements = event.target.elements;
+            const fullName = formElements[0].value.trim();
+            const mobileNum = formElements[1].value.trim();
+            const clientEmail = formElements[2].value.trim();
+            const targetCircuit = document.getElementById('inquiry-dropdown-loader').value;
+            const specialRequests = formElements[4].value.trim();
+
+            try {
+                // Push standard formatted data payload into cloud records collection node
+                await addDoc(collection(db, "inquiries"), {
+                    userId: currentUser ? currentUser.uid : "Anonymous Visitor",
+                    customerName: fullName,
+                    phoneTerminal: mobileNum,
+                    emailProvided: clientEmail,
+                    selectedCircuit: targetCircuit,
+                    customDemands: specialRequests,
+                    submissionDate: new Date().toISOString().replace('T', ' ').substring(0, 16)
+                });
+
+                alert("✨ Inquiry Transmitted Successfully!\nYour custom requirements have been compiled and sent straight to our Rajkot HQ database pipelines.");
+                event.target.reset();
+            } catch (error) {
+                alert("Database Error: Could not transmit lead data. Please try again.");
+                console.error("Firestore Write Error: ", error);
+            }
+        };
+    </script>
+    <script>
+        window.onload = function() {
+            if (typeof shyamGlobalRegistry !== 'undefined') {
+                const dropdown = document.getElementById('inquiry-dropdown-loader');
+                dropdown.innerHTML = '<option value="">-- Choose Target Circuit --</option>';
+                shyamGlobalRegistry.slice(0, 30).forEach(tour => {
+                    const opt = document.createElement('option');
+                    opt.value = tour.label;
+                    opt.innerText = `${tour.domain.toUpperCase()} | ${tour.label}`;
+                    dropdown.appendChild(opt);
+                });
+            }
+        };
+
+        function processFormInquirySubmission(event) {
+            event.preventDefault();
+            alert("✨ Success!\nYour inquiry data has been logged securely into the terminal routing framework.");
+            event.target.reset();
+        }
+
+        function processReviewSubmission(event) {
+            event.preventDefault();
+            const author = document.getElementById('form-rev-author').value;
+            const starsCount = document.getElementById('form-rev-stars').value;
+            const bodyText = document.getElementById('form-rev-text').value;
+
+            const reviewCard = document.createElement('div');
+            reviewCard.className = "stream-item";
+            reviewCard.innerHTML = `
+                <div class="star-rating-row">${"⭐".repeat(starsCount)}</div>
+                <span class="stream-author">- ${author}</span>
+                <p class="stream-text">${bodyText}</p>
+            `;
+            document.getElementById('reviews-injection-stream').insertBefore(reviewCard, document.getElementById('reviews-injection-stream').firstChild);
+            alert("Feedback posted successfully.");
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyam Holidays | Travel Services & Custom Planner</title>
+        <script type="module" src="./firebase-auth.js"></script>
+
+    <style>
+        :root {
+            --sotc-navy: #00254d;
+            --sotc-gold: #f2b705;
+            --sotc-blue: #0066cc;
+            --text-dark: #333333;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); }
+
+        .ticker-bar { background: var(--sotc-gold); color: var(--sotc-navy); font-weight: 700; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; }
+        .ticker-slider { display: inline-block; padding-left: 100%; animation: sotc-ticker 35s linear infinite; }
+        @keyframes sotc-ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
+        header { background: var(--white); border-bottom: 3px solid var(--sotc-navy); position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header-wrapper { max-width: 1300px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container img { max-height: 65px; object-fit: contain; }
+        
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--sotc-navy); font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 12px 0; }
+        nav ul li a.active { color: var(--sotc-blue); border-bottom: 3px solid var(--sotc-blue); }
+
+        .services-banner {
+            background: linear-gradient(rgba(0,37,77,0.6), rgba(0,21,43,0.7)), url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--white); text-align: center;
+        }
+        .services-banner h1 { font-size: 38px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+
+        .services-section { max-width: 1300px; margin: 50px auto; padding: 0 20px; }
+        .section-title { font-size: 28px; color: var(--sotc-navy); text-transform: uppercase; text-align: center; margin-bottom: 35px; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--sotc-gold); margin: 10px auto 0 auto; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 60px; }
+        .service-card { background: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; transition: transform 0.2s; }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-icon { font-size: 40px; margin-bottom: 15px; }
+        .service-card h2 { font-size: 20px; color: var(--sotc-navy); margin-bottom: 12px; text-transform: uppercase; }
+        .service-card p { font-size: 14px; color: #666; line-height: 1.6; }
+
+        .builder-wrapper { background: var(--white); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; margin-bottom: 40px; }
+        .builder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 25px; }
+        .form-cell { display: flex; flex-direction: column; }
+        .form-cell label { font-size: 12px; font-weight: 700; color: var(--sotc-navy); text-transform: uppercase; margin-bottom: 8px; }
+        .form-cell select, .form-cell input { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: var(--white); }
+        .btn-calculate { grid-column: span 3; background: var(--sotc-blue); color: var(--white); border: none; padding: 15px; font-weight: 700; font-size: 15px; text-transform: uppercase; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+
+        .calculator-output-box { margin-top: 35px; padding: 30px; background: #f0f7ff; border-radius: 8px; border-left: 6px solid var(--sotc-blue); display: none; }
+        .output-title { font-size: 22px; color: var(--sotc-navy); font-weight: 800; margin-bottom: 15px; }
+        .price-summary-tag { font-size: 32px; color: var(--sotc-blue); font-weight: 800; margin: 10px 0; }
+        .btn-inquire-now { background: var(--sotc-navy); color: var(--white); border: none; padding: 12px 30px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-top: 15px; }
+
+        footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--sotc-gold); }
+    </style>
+</head>
+<body>
+
+    <div class="ticker-bar">
+        <div class="ticker-slider">
+            ✨ CONFIGURE FLIGHTS, TRAINS, HOTELS, VISA ASSISTANCE AND TOURS VIA DYNAMIC MULTI-SEGMENT SYSTEM MATRIX ✨
+        </div>
+    </div>
+
+    <header>
+        <div class="header-wrapper">
+            <div class="logo-container">
+                <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                <div id="logo-fallback" style="display:none; font-size:20px; font-weight:800; color:var(--sotc-navy);">SHYAM <span style="color:var(--sotc-blue)">HOLIDAYS</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a class="active" href="services.html">Our Services</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="services-banner">
+        <h1>Our Specialized Travel Services</h1>
+    </section>
+
+    <div class="services-section">
+        <h2 class="section-title">End-To-End Hospitality Portfolio</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">✈️</div>
+                <h2>Flights &amp; Trains Transit</h2>
+                <p>Systemic routing and schedule generation across multi-carrier aviation lines and railway frameworks to secure optimal premium transit layout mappings.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏨</div>
+                <h2>Elite Hotel Procurement</h2>
+                <p>Contractual reservation guarantees matching properties in Luxury palaces, Premium 5-star mountain eco-resorts, and Classic family destination zones.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛂</div>
+                <h2>Passport &amp; Visa Services</h2>
+                <p>Meticulous documentation management and submission counseling ensuring fully compliant processing loops for swift outbound clearance validation.</p>
+            </div>
+        </div>
+
+        <div class="builder-wrapper">
+            <h2 class="section-title" style="margin-bottom: 10px;">Create Your Customized Holiday Package Yourself</h2>
+            <p style="text-align: center; font-size: 14px; color: #666;">Select your preferences below to dynamically compute core tour operational metrics.</p>
+            
+            <div class="builder-grid">
+                <div class="form-cell">
+                    <label>Regional Boundary</label>
+                    <select id="select-domain" onchange="populateDynamicDropdowns()">
+                        <option value="domestic">Domestic Holidays (India)</option>
+                        <option value="international">International Horizons</option>
+                    </select>
+                </div>
+                <div class="form-cell">
+                    <label>Target Location Circuit</label>
+                    <select id="select-circuit"></select>
+                </div>
+                <div class="form-cell">
+                    <label>Luxury Operational Tier</label>
+                    <select id="select-tier">
+                        <option value="Luxury">Luxury (5-Star Palaces &amp; Villas, Private Transport)</option>
+                        <option value="Premium">Premium (4-Star Resorts, Premium SUVs)</option>
+                        <option value="Classic">Classic (Comfort Star Hotels, Shared Coaches)</option>
+                    </select>
+                </div>
+                <div class="form-cell">
+                    <label>Total Passenger Headcount</label>
+                    <input type="number" id="input-pax" min="1" value="1">
+                </div>
+                <div class="form-cell">
+                    <label>Duration Parameters (Nights)</label>
+                    <input type="number" id="input-duration" min="2" max="30" value="5">
+                </div>
+                <div class="form-cell">
+                    <label>Flight Inclusion Bundle</label>
+                    <select id="select-flights">
+                        <option value="exclude">Exclude Flights (Land Package Only)</option>
+                        <option value="include">Include Economy Airfare Bundle</option>
+                    </select>
+                </div>
+                <button class="btn-calculate" onclick="calculateBespokePackageTariff()">Compute Custom Itinerary Cost</button>
+            </div>
+
+            <div class="calculator-output-box" id="calc-output-sheet"></div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. Aligned precisely to match SOTC specifications.
+    </footer>
+
+    <script src="destinations-data.js"></script>
+    <script>
+        window.onload = function() {
+            if (typeof shyamGlobalRegistry !== 'undefined') {
+                populateDynamicDropdowns();
+            }
+        };
+
+        function populateDynamicDropdowns() {
+            const domainType = document.getElementById('select-domain').value;
+            const circuitDropdown = document.getElementById('select-circuit');
+            circuitDropdown.innerHTML = '';
+
+            const filteredCircuits = shyamGlobalRegistry.filter(tour => tour.domain === domainType);
+            filteredCircuits.forEach(tour => {
+                const opt = document.createElement('option');
+                opt.value = tour.id;
+                opt.innerText = tour.label;
+                circuitDropdown.appendChild(opt);
+            });
+        }
+
+        function calculateBespokePackageTariff() {
+            const circuitId = document.getElementById('select-circuit').value;
+            const chosenTier = document.getElementById('select-tier').value;
+            const paxCount = parseInt(document.getElementById('input-pax').value);
+            const nightDuration = parseInt(document.getElementById('input-duration').value);
+            const flightChoice = document.getElementById('select-flights').value;
+
+            if (!circuitId) { alert("Please complete field components."); return; }
+            const selectedTourAsset = shyamGlobalRegistry.find(tour => tour.id === circuitId);
+            if (!selectedTourAsset) return;
+
+            let selectedBaseRate = (paxCount >= 4) ? selectedTourAsset.groupRate : selectedTourAsset.rate;
+            let tierFactor = chosenTier === 'Luxury' ? 1.45 : (chosenTier === 'Classic' ? 0.85 : 1.0);
+            let durationFactor = nightDuration / 5;
+            let airfareCostPerHead = flightChoice === 'include' ? (selectedTourAsset.domain === 'domestic' ? 8500 : 35000) : 0;
+
+            let individualBaseCalculated = (selectedBaseRate * tierFactor * durationFactor);
+            let absoluteTotalCost = Math.round((individualBaseCalculated + airfareCostPerHead) * paxCount);
+
+            const outputSheet = document.getElementById('calc-output-sheet');
+            outputSheet.style.display = "block";
+            outputSheet.innerHTML = `
+                <div class="output-title">📋 Custom Cost Estimate Generated</div>
+                <p style="font-size:15px; line-height:1.6; color:#444;">
+                    Itinerary Track: <strong>${selectedTourAsset.label}</strong><br>
+                    Specification Level: <strong>${chosenTier} Inclusions</strong> | Duration Metrics: <strong>${nightDuration} Nights</strong>
+                </p>
+                <div class="price-summary-tag">Total Estimation: ₹${absoluteTotalCost.toLocaleString('en-IN')}</div>
+                <button class="btn-inquire-now" onclick="alert('Pricing locked. Transmission routed to HQ registry module.')">Lock Price &amp; File Inquiry</button>
+            `;
+            outputSheet.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

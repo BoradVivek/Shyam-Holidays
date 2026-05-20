@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyam Holidays | Premium Tours & Travels</title>
+    <style>
+        :root {
+            --shyam-navy: #00254d;
+            --shyam-gold: #f2b705;
+            --shyam-blue: #0066cc;
+            --text-dark: #333333;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --success-green: #2ecc71;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+
+        /* --- GLOBAL TICKER TAPE --- */
+        .ticker-bar {
+            background: var(--shyam-gold); color: var(--shyam-navy);
+            font-weight: 700; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap;
+        }
+        .ticker-slider {
+            display: inline-block; padding-left: 100%; animation: shyam-ticker 35s linear infinite;
+        }
+        @keyframes shyam-ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* --- NAVIGATION HEADER --- */
+        header {
+            background: var(--white); border-bottom: 3px solid var(--shyam-navy);
+            position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header-wrapper {
+            max-width: 1300px; margin: 0 auto; padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo-container img { max-height: 65px; object-fit: contain; display: block; cursor: pointer; }
+
+        nav {
+        /* This automatically pushes the nav links to the right, aligning with the buttons */
+        margin-left: auto; 
+        margin-right: 40px; /* Adds a clean spacing gap between your tabs and login buttons */
+        }
+        
+        nav ul { 
+            display: flex; 
+            list-style: none; 
+             gap: 30px; 
+        }        
+        nav ul li a {
+            text-decoration: none; 
+            color: var(--shyam-navy); 
+            font-weight: 700;
+            font-size: 14px; 
+            text-transform: uppercase; 
+            padding: 12px 0; 
+            transition: opacity 0.2s;
+            display: block;
+        }
+        nav ul li a.active { color: var(--shyam-blue); border-bottom: 3px solid var(--shyam-blue); }
+
+        .system-auth-triggers { display: flex;  }
+        .auth-btn {
+            padding: 9px 20px; border-radius: 4px; font-size: 13px; font-weight: 700;
+            cursor: pointer; text-transform: uppercase; border: none;
+        }
+        .btn-client { background: var(--shyam-gold); color: var(--shyam-navy); }
+        .btn-admin { background: var(--shyam-navy); color: var(--white); }
+
+        /* --- HERO VIEWPORT SLIDER --- */
+        .hero-slider-viewport { position: relative; height: 540px; width: 100%; overflow: hidden; background: #000; }
+        .slide-frame {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center center; opacity: 0;
+            transition: opacity 1.2s ease-in-out; z-index: 1;
+        }
+        .slide-frame.active { opacity: 1; z-index: 2; }
+        .slider-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,37,77,0.4) 0%, rgba(0,21,43,0.6) 100%);
+            z-index: 3; display: flex; flex-direction: column; justify-content: flex-start;
+            align-items: center; padding-top: 60px; text-align: center; color: var(--white);
+        }
+        .slider-overlay h1 { font-size: 46px; text-transform: uppercase; font-weight: 800; text-shadow: 2px 3px 10px rgba(0,0,0,0.7); margin-bottom: 8px; }
+        .slider-overlay p { font-size: 18px; text-shadow: 1px 2px 5px rgba(0,0,0,0.6); }
+
+        /* --- SEARCH SEARCH MODULE --- */
+        .shyam-search-console {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 1100px; background: var(--white); border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.35); z-index: 10; overflow: hidden; color: var(--text-dark);
+        }
+        .console-tabs { display: flex; background: #f1f4f8; border-bottom: 10px solid #e2e8f0; }
+        .tab-trigger { padding: 18px 36px; font-weight: 700; font-size: 13px; text-transform: uppercase; color: #555; cursor: pointer; border-right: 1px solid #e2e8f0; }
+        .tab-trigger.active { background: var(--white); color: var(--shyam-blue); border-top: 3px solid var(--shyam-blue); }
+        
+        .console-fields-row { padding: 24px; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 5px; align-items: end; }
+        .field-cell { display: flex; flex-direction: column; }
+        .field-cell label { font-size: 15px; font-weight: 700; color: #666; text-transform: uppercase; margin-bottom: 6px; }
+        .field-cell input, .field-cell select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; outline: none; }
+        .btn-search-execute { background: var(--shyam-blue); color: var(--white); border: none; padding: 14px 18px; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; }
+
+        /* --- CLOUD AUTH DUAL INTERFACE MODAL --- */
+        .auth-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            z-index: 5000; display: none; justify-content: center; align-items: center;
+        }
+        .auth-modal-content { background: var(--white); padding: 35px; border-radius: 8px; width: 420px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #888; cursor: pointer; }
+        .auth-modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 14px; }
+        .auth-modal-content button { width: 100%; padding: 12px; background: var(--shyam-blue); color: var(--white); border: none; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-size: 14px; }
+
+        .content-block { max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center; }
+        .main-heading { font-size: 30px; color: var(--shyam-navy); text-transform: uppercase; margin-bottom: 20px; }
+        .main-heading::after { content: ''; display: block; width: 70px; height: 3px; background: var(--shyam-gold); margin: 12px auto 0 auto; }
+
+        footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 80px; }
+    </style>
+</head>
+<body>
+
+    <div class="ticker-bar">
+        <div class="ticker-slider">
+            ✨ WELCOME TO SHYAM HOLIDAYS: BOOK HIGH-END PREMIUM AND LUXURY TOUR PACKAGES REGISTERED TO COMPLY WITH NATIONAL DESTINATION STANDARDS • LIVE MULTI-TAB WORKFLOW ACTIVE NOW ✨
+        </div>
+    </div>
+
+    <header>
+        <div class="header-wrapper">
+            <div class="logo-container" onclick="window.location.reload()">
+                <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                <div id="logo-fallback" style="display:none; font-size:20px; font-weight:800; color:var(--shyam-navy);">SHYAM <span style="color:var(--shyam-blue)">HOLIDAYS</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="system-auth-triggers">
+                <a href="gate.html" class="auth-btn btn-client" id="sign-in-btn" style="text-decoration:none; display:inline-block; text-align:center;">Sign In / Register</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="state-client-view">
+        <section class="hero-slider-viewport">
+            <div class="slide-frame active" style="background-image: url('https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1920&q=80');"></div>
+            <div class="slide-frame" style="background-image: url('https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80');"></div>
+            
+            <div class="slider-overlay">
+                <h1 id="dynamic-overlay-title">Let's Plan Your Next Customized Escape</h1>
+                <p>Where Every Journey Is Auspicious</p>
+            </div>
+
+            <div class="shyam-search-console">
+                <div class="console-tabs">
+                    <div class="tab-trigger active" id="tb-customized" onclick="switchConsoleMode('customized')">Customized Holidays</div>
+                    <div class="tab-trigger" id="tb-group" onclick="switchConsoleMode('group')">Group Tours</div>
+                    <div class="tab-trigger" id="tb-flight" onclick="switchConsoleMode('flight')">Flight + Hotel Deals</div>
+                </div>
+                <div class="console-fields-row">
+                    <div class="field-cell">
+                        <label>Leaving From</label>
+                        <input type="text" id="origin-city" value="Rajkot (RAJ)">
+                    </div>
+                    <div class="field-cell">
+                        <label id="dynamic-search-label">Target Region</label>
+                        <select id="target-circuit">
+                            <option value="">Select Destination</option>
+                        </select>
+                    </div>
+                    <div class="field-cell">
+                        <label>Departure Date</label>
+                        <input type="date">
+                    </div>
+                    <div class="field-cell">
+                        <label>Travelers Configuration</label>
+                        <select id="pax-count">
+                            <option value="1">1 Adult, 0 Children</option>
+                            <option value="2">2 Adults, 1 Child</option>
+                            <option value="group">Corporate Group Deal Portfolio</option>
+                        </select>
+                    </div>
+                    <button class="btn-search-execute" onclick="executeIntegratedSearch()">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <main class="content-block">
+            <h2 class="main-heading">Corporate Background Profile</h2>
+            <p style="max-width: 850px; margin: 0 auto; font-size: 15px; line-height: 1.8; color: #555;">
+                Structured systematically to manage upscale regional logistics and high-end outbound hospitality pipelines, <strong>Shyam Holidays</strong> operates precisely out of Rajkot, Gujarat. Modeled meticulously after enterprise layout frameworks, our platform handles flight mappings, hotel arrangements, train bookings, and visa processing securely without systemic variance.
+            </p>
+        </main>
+    </div>
+
+    <div class="auth-modal-overlay" id="modal-layer">
+        <div class="auth-modal-content">
+            <span class="close-modal-x" onclick="toggleSignInModal(false)">&times;</span>
+            
+            <div style="display: flex; margin-bottom: 20px; border-bottom: 2px solid #edf2f7; text-align: center;">
+                <div id="modal-tab-login" style="flex: 1; padding: 10px; font-weight: 700; cursor: pointer; color: var(--shyam-blue); border-bottom: 2px solid var(--shyam-blue);" onclick="toggleAuthInterfaceMode('login')">Sign In</div>
+                <div id="modal-tab-register" style="flex: 1; padding: 10px; font-weight: 700; cursor: pointer; color: #777;" onclick="toggleAuthInterfaceMode('register')">Register</div>
+            </div>
+
+            <h3 id="auth-modal-title" style="font-size: 18px; color: var(--shyam-navy); margin-bottom: 20px; text-transform: uppercase;">Secure Account Sign-In</h3>
+            
+            <form onsubmit="handleUserAuthentication(event)">
+                <input type="email" id="user-email-field" placeholder="Enter Account Email" required>
+                <input type="password" id="user-password-field" placeholder="Enter Password" required>
+                <button type="submit" id="auth-submit-btn">Verify &amp; Mount Session</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. Aligned with Premium Structural UI Specifications.
+    </footer>
+
+    <script src="destinations-data.js"></script>
+
+<script type="module">
+        import { auth } from "./firebase-auth.js";
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // WATCH USER SESSION STATES TO UNLOCK OR LOCK NAVIGATION LINKS
+        onAuthStateChanged(auth, (user) => {
+            const entryButton = document.getElementById('sign-in-btn');
+            
+            if (user) {
+                // User logged in: Show their tag profile and convert the action to a sign out link
+                entryButton.innerText = `LOGOUT (${user.email.split('@')[0].toUpperCase()})`;
+                entryButton.style.background = "#2ecc71";
+                entryButton.style.color = "#fff";
+                entryButton.href = "#"; // Break link path
+                entryButton.onclick = (e) => {
+                    e.preventDefault();
+                    if(confirm("Do you want to sign out of your session?")) {
+                        signOut(auth).then(() => { window.location.reload(); });
+                    }
+                };
+
+                // Remove tab restrictions globally 
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    link.style.opacity = "1";
+                    link.style.pointerEvents = "auto";
+                    link.style.cursor = "pointer";
+                });
+            } else {
+                // User logged out: Return the button to normal gate paths
+                entryButton.innerText = "Sign In / Register";
+                entryButton.style.background = "var(--shyam-gold)";
+                entryButton.style.color = "var(--shyam-navy)";
+                entryButton.href = "gate.html";
+                entryButton.onclick = null;
+
+                // Restrict access across your catalog sections completely 
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    const referencePath = link.getAttribute('href');
+                    if(referencePath !== 'index.html' && referencePath !== '' && referencePath !== null) {
+                        link.style.opacity = "0.3";
+                        link.style.pointerEvents = "none";
+                        link.style.cursor = "not-allowed";
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // POPULATE DROPDOWN WITH FULL 80 RECS CATALOG ON DOM LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof shyamGlobalRegistry !== 'undefined') {
+                const selectDropdown = document.getElementById('target-circuit');
+                selectDropdown.innerHTML = '<option value="">Select Destination</option>';
+                shyamGlobalRegistry.forEach(tour => {
+                    const opt = document.createElement('option');
+                    opt.value = tour.id;
+                    opt.innerText = `[${tour.domain.toUpperCase()}] ${tour.label}`;
+                    selectDropdown.appendChild(opt);
+                });
+            }
+        });
+
+        // PARALLAX RE-FADING BACKGROUND BACKDROPS COUNTER
+        const slides = document.querySelectorAll('.slide-frame');
+        let activeSlideIndex = 0;
+        setInterval(() => {
+            if(slides.length > 0) {
+                slides[activeSlideIndex].classList.remove('active');
+                activeSlideIndex = (activeSlideIndex + 1) % slides.length;
+                slides[activeSlideIndex].classList.add('active');
+            }
+        }, 4000);
+
+        function switchConsoleMode(targetTab) {
+            document.querySelectorAll('.tab-trigger').forEach(tab => tab.classList.remove('active'));
+            const overlayTitle = document.getElementById('dynamic-overlay-title');
+            const searchLabel = document.getElementById('dynamic-search-label');
+
+            if(targetTab === 'customized') {
+                document.getElementById('tb-customized').classList.add('active');
+                overlayTitle.innerText = "Let's Plan Your Next Customized Escape";
+                searchLabel.innerText = "Target Region";
+            } else if(targetTab === 'group') {
+                document.getElementById('tb-group').classList.add('active');
+                overlayTitle.innerText = "Premium Group Fixed Departures Framework";
+                searchLabel.innerText = "Select Escorted Circuit";
+            } else if(targetTab === 'flight') {
+                document.getElementById('tb-flight').classList.add('active');
+                overlayTitle.innerText = "Exclusive Flight + Premium Hotel Bundles";
+                searchLabel.innerText = "Hotel Hub City Location";
+            }
+        }
+
+        function executeIntegratedSearch() {
+            const dest = document.getElementById('target-circuit').value;
+            if(!dest) { alert("Please choose an itinerary destination circuit."); return; }
+            alert(`Scanning live matrix clusters for chosen tour configurations...`);
+        }
+    </script>
+</body>
+</html>
