@@ -121,6 +121,54 @@
         .main-heading::after { content: ''; display: block; width: 70px; height: 3px; background: var(--shyam-gold); margin: 12px auto 0 auto; }
 
         footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 80px; }
+        @media (max-width: 1200px) {
+    .console-fields-row { grid-template-columns: repeat(2, 1fr); }
+    .btn-search-execute { grid-column: span 2; width: 100%; margin-top: 5px; }
+    .hero-slider-viewport { height: 620px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+    .workspace-grid { grid-template-columns: 1fr; padding: 0 15px; }
+    .catalog-container.split-mode { grid-template-columns: 1fr; }
+    .workspace-container { grid-template-columns: 1fr; }
+    .full-width-row { grid-column: span 1; }
+    .analytics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .builder-grid { grid-template-columns: repeat(2, 1fr); }
+    .btn-calculate { grid-column: span 2; }
+    .contact-container { grid-template-columns: 1fr; gap: 20px; }
+    .reviews-split-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 820px) {
+    .header-wrapper { flex-direction: column; text-align: center; padding: 15px 10px; }
+    nav { margin: 10px auto; margin-right: auto; }
+    nav ul { justify-content: center; gap: 15px; }
+    .system-auth-triggers { justify-content: center; width: 100%; margin-top: 5px; }
+    .slider-overlay h1 { font-size: 26px; }
+    .slider-overlay p { font-size: 14px; }
+}
+
+@media (max-width: 600px) {
+    .console-tabs { flex-direction: column; }
+    .tab-trigger { border-right: none; border-bottom: 1px solid #e2e8f0; padding: 12px; }
+    .console-fields-row { grid-template-columns: 1fr; padding: 15px; }
+    .btn-search-execute { grid-column: span 1; }
+    .hero-slider-viewport { height: 720px; }
+    .slider-overlay { padding-top: 30px; }
+    .shyam-search-console { bottom: 15px; }
+    
+    .services-grid, .builder-grid { grid-template-columns: 1fr; }
+    .btn-calculate { grid-column: span 1; }
+    .analytics-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .field-block { grid-column: span 2 !important; }
+    .builder-wrapper, .info-card, .form-card, .panel-card { padding: 20px 15px; }
+    .items-grid { grid-template-columns: 1fr; }
+}
     </style>
 </head>
 <body>
