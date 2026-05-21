@@ -12,167 +12,130 @@
             --text-dark: #333333;
             --bg-light: #f4f6f9;
             --white: #ffffff;
+            --border-color: #cbd5e1;
         }
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif; }
-        body { background: var(--bg-light); color: var(--text-dark); }
+        body { background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; width: 100%; }
 
-        .ticker-bar { background: var(--shyam-gold); color: var(--shyam-navy); font-weight: 700; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; }
+        /* --- GLOBAL TICKER TAPE --- */
+        .ticker-bar { background: var(--shyam-gold); color: var(--shyam-navy); font-weight: 700; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; width: 100%; }
         .ticker-slider { display: inline-block; padding-left: 100%; animation: shyam-ticker 35s linear infinite; }
         @keyframes shyam-ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
-        
-        /* HEADER NAVIGATION ARRANGEMENT MAPPED TO RIGHT SIDE */
-         header {
-            background: var(--white); border-bottom: 3px solid var(--shyam-navy);
-            position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .header-wrapper {
-            max-width: 1300px; margin: 0 auto; padding: 10px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo-container img { max-height: 65px; object-fit: contain; display: block; cursor: pointer; }
 
-        nav {
-        /* This automatically pushes the nav links to the right, aligning with the buttons */
-        margin-left: auto; 
-        margin-right: 40px; /* Adds a clean spacing gap between your tabs and login buttons */
-        }
-        
-        nav ul { 
-            display: flex; 
-            list-style: none; 
-             gap: 30px; 
-        }        
-        nav ul li a {
-            text-decoration: none; 
-            color: var(--shyam-navy); 
-            font-weight: 700;
-            font-size: 14px; 
-            text-transform: uppercase; 
-            padding: 12px 0; 
-            transition: opacity 0.2s;
-            display: block;
-        }
+        /* --- STICKY RIGHT-ALIGNED NAVIGATION HEADER --- */
+        header { background: var(--white); border-bottom: 3px solid var(--shyam-navy); position: sticky; top:0; z-index:2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; }
+        .header-wrapper { max-width: 1300px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo-container img { max-height: 65px; object-fit: contain; display: block; cursor: pointer; }
+        nav { margin-left: auto; margin-right: 40px; }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--shyam-navy); font-weight: 700; font-size: 14px; text-transform: uppercase; padding: 12px 0; transition: opacity 0.2s; display: block; white-space: nowrap; }
         nav ul li a.active { color: var(--shyam-blue); border-bottom: 3px solid var(--shyam-blue); }
-        
-        /* CONTENT WORKSPACE SPLIT BLOCKS */
-        .workspace-grid { 
-            display: grid; 
-            grid-template-columns: 280px 1fr; 
-            gap: 20px; 
-            max-width: 1400px; 
-            margin: 25px auto; 
-            padding: 0 20px; 
-        }
-        
-        .sidebar-card { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: fit-content; }
+
+        /* --- TWO-COLUMN DESKTOP SPLIT CONTAINER --- */
+        .workspace-grid { display: grid; grid-template-columns: 280px 1fr; gap: 20px; max-width: 1400px; margin: 25px auto; padding: 0 20px; width: 100%; }
+        .sidebar-card { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: fit-content; width: 100%; }
         .sidebar-card h3 { margin-bottom: 15px; color: var(--shyam-navy); border-bottom: 2px solid #eee; padding-bottom: 8px; font-size: 16px; text-transform: uppercase; }
         .filter-group { margin-bottom: 20px; }
         .filter-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; color: #555; }
-        .filter-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; }
+        .filter-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; background: var(--white); }
 
-        .catalog-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .catalog-container.split-mode { grid-template-columns: 1fr 480px; }
+        .catalog-container { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
+        .catalog-container.split-mode { grid-template-columns: 1fr 460px; }
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; width: 100%; }
 
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        
-        /* TOUR CATALOG CARD GRAPHICS */
-        .tour-card { background: var(--white); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; border-top: 4px solid #cbd5e1; }
+        /* --- TOURS CARD COMPONENTS --- */
+        .tour-card { background: var(--white); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; border-top: 4px solid #cbd5e1; width: 100%; }
         .tour-card.luxury { border-top-color: var(--shyam-gold); }
         .tour-card.premium { border-top-color: var(--shyam-blue); }
         .tour-card.professional { border-top-color: #9b59b6; }
         .tour-card.classic { border-top-color: #e67e22; }
-        
         .tour-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .tour-info h4 { font-size: 16px; color: var(--shyam-navy); margin-bottom: 8px; font-weight: 700; }
-        .tour-price-box { margin-top: 12px; background: #f8fafc; padding: 10px; border-radius: 4px; font-size: 13px; line-height: 1.6; color: #475569; }
-        .book-btn { width: 100%; padding: 11px; background: var(--shyam-blue); color: var(--white); border: none; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-top: 15px; font-size: 12px; transition: background 0.2s; }
+        .tour-price-box { margin-top: 12px; background: #f8fafc; padding: 10px; border-radius: 4px; font-size: 13px; line-height: 1.6; color: #475569; text-align: left; }
+        .book-btn { width: 100%; padding: 11px; background: var(--shyam-blue); color: var(--white); border: none; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-top: 15px; font-size: 12px; }
         .book-btn:hover { background: #004b99; }
 
-        /* SLIDEOUT FORM CONTROL COMPONENT DESK */
-        .booking-tab-panel { background: var(--white); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,37,77,0.15); border-top: 5px solid var(--shyam-gold); padding: 25px; display: none; height: fit-content; position: sticky; top: 90px; }
+        /* --- MULTI-STEP RESERVATION DESK PANEL --- */
+        .booking-tab-panel { 
+            background: var(--white); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,37,77,0.15); 
+            border-top: 5px solid var(--shyam-gold); padding: 25px; display: none; height: fit-content; 
+            position: sticky; top: 90px; width: 100%; z-index: 1500;
+        }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
         .panel-header h3 { color: var(--shyam-navy); font-size: 16px; text-transform: uppercase; }
         .close-panel-btn { font-size: 24px; color: #94a3b8; cursor: pointer; font-weight: 700; }
-        
-        .form-scroll-zone { max-height: 580px; overflow-y: auto; padding-right: 6px; }
+        .form-scroll-zone { max-height: 540px; overflow-y: auto; padding-right: 6px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
         .field-block { display: flex; flex-direction: column; margin-bottom: 10px; }
         .field-block.full-width { grid-column: span 2; }
-        .field-block label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #475569; }
-        .field-block input, .field-block select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; width: 100%; }
-        .field-block input:focus, .field-block select:focus { border-color: var(--shyam-blue); }
+        .field-block label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #475569; text-align: left; }
+        .field-block input, .field-block select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; width: 100%; background: var(--white); }
         
-        .otp-box-wrapper { background: #f8fafc; border: 1px dashed var(--shyam-blue); padding: 15px; border-radius: 6px; margin-top: 15px; display: none; }
-        .action-submit-trigger { width: 100%; padding: 14px; background: #2ecc71; color: var(--white); border: none; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-size: 13px; margin-top: 20px; transition: background 0.2s; }
-        
-        footer { background: #00162e; color: #a3b3c2; padding: 20px; text-align: center; font-size: 13px; margin-top: 60px; }
+        .otp-box-wrapper { background: #f8fafc; border: 1px dashed var(--shyam-blue); padding: 15px; border-radius: 6px; margin-top: 15px; display: none; text-align: left; }
+        .action-submit-trigger { width: 100%; padding: 14px; background: #2ecc71; color: var(--white); border: none; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-size: 13px; margin-top: 20px; }
+
+        /* --- PLATFORM FOOTER --- */
+        footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 80px; width: 100%; }
+
+        /* =========================================================================
+           📱 AUTOMATED RESPONSIVE MOBILE BREAKPOINTS (OVERLAY FIX FOR CELL PHONES)
+           ========================================================================= */
+
         @media (max-width: 1024px) {
-    .workspace-grid { 
-        grid-template-columns: 1fr; /* Forces filter panel card stack above destination package loops */
-        padding: 0 15px; 
-    }
-    .catalog-container.split-mode { 
-        grid-template-columns: 1fr; /* Drops opened booking details panel cleanly underneath card rows */
-    }
-}
+            .workspace-grid { grid-template-columns: 1fr; padding: 0 15px; }
+            
+            /* Structural Transformation to Full Screen Overlay Window on Mobile viewports */
+            .catalog-container.split-mode { grid-template-columns: 1fr; }
+            .booking-tab-panel {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                max-height: 100vh;
+                margin: 0; border-radius: 0;
+                z-index: 9999; /* Higher than any navigation layout bars */
+                overflow-y: auto;
+                padding: 20px;
+                background: var(--white);
+            }
+            .form-scroll-zone {
+                max-height: calc(100vh - 100px);
+                padding-bottom: 40px;
+            }
+        }
 
-/* Smartphone Portrait Sizing Intercept Firewalls */
-@media (max-width: 820px) {
-    .header-wrapper { 
-        flex-direction: column; /* Stacks brand emblem navigation link tags inside centered vertical grids */
-        text-align: center; 
-        padding: 15px 10px; 
-    }
-    nav { 
-        margin: 10px auto; 
-        margin-right: auto; 
-    }
-    nav ul { 
-        justify-content: center; 
-        gap: 15px; 
-    }
-}
+        @media (max-width: 820px) {
+            .header-wrapper { flex-direction: column; text-align: center; padding: 15px 10px; }
+            nav { margin: 10px auto; margin-right: auto; }
+            nav ul { justify-content: center; gap: 15px; }
+        }
 
-/* Micro Phone Frame Screen Calibration Adjustments */
-@media (max-width: 600px) {
-    .items-grid { 
-        grid-template-columns: 1fr; /* Restricts package loops to show exactly 1 adaptive card per row */
-    }
-    .form-row { 
-        grid-template-columns: 1fr; /* Flattens field rows inputs combinations to single vertical block steps */
-    }
-    .field-block { 
-        grid-column: span 2 !important; /* Forces layout tracking elements to adapt horizontally */
-    }
-    .booking-tab-panel { 
-        padding: 20px 15px; /* Squeezes heavy padding bounds so details forms stay beautifully readable */
-    }
-    .sidebar-card {
-        padding: 15px;
-    }
-}
+        @media (max-width: 600px) {
+            .items-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .field-block { grid-column: span 2 !important; }
+            .sidebar-card { padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-   <div class="ticker-bar">
+    <div class="ticker-bar">
         <div class="ticker-slider">
-            ✨ CONFIGURE FLIGHTS, TRAINS, HOTELS, VISA ASSISTANCE AND TOURS VIA DYNAMIC MULTI-SEGMENT SYSTEM MATRIX ✨
+            ✨ TOUR PLANNER CATALOG OVERLAY ENGINE: SEAMLESS FIRESTORE BACKEND ROUTING INTEGRATED FOR INSTANT USER LEADS INTERFACES ✨
         </div>
     </div>
-
 
     <header>
         <div class="header-wrapper">
             <div class="logo-container" onclick="window.location.href='index.html'">
                 <img src="Shyam Holidays.png" alt="Shyam Holidays Logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
-                <div id="logo-fallback" style="display:none; font-size:18px; font-weight:800; color:var(--shyam-navy);">SHYAM HOLIDAYS</div>
+                <div id="logo-fallback" style="display:none; font-size:20px; font-weight:800; color:var(--shyam-navy);">SHYAM <span style="color:var(--shyam-blue)">HOLIDAYS</span></div>
             </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Our Services</a></li>
-                    <li><a style="color: var(--shyam-blue);" href="destinations.html">Destinations</a></li>
+                    <li><a class="active" href="destinations.html">Destinations</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </nav>
@@ -181,296 +144,249 @@
 
     <div class="workspace-grid">
         <aside class="sidebar-card">
-            <h3>Filter Catalog</h3>
+            <h3>Filter Circuit</h3>
             <div class="filter-group">
-                <label>Regional Context</label>
-                <select id="filter-domain" onchange="window.applyLiveCatalogFilters()">
-                    <option value="all">Show All Horizons</option>
-                    <option value="domestic">Domestic Indian Circuits</option>
-                    <option value="international">Outbound International</option>
+                <label>Boundary Scope</label>
+                <select id="filter-domain" onchange="applyLiveCatalogFilters()">
+                    <option value="all">All Horizons (Global)</option>
+                    <option value="domestic">Domestic Tiers (India)</option>
+                    <option value="international">International Circuits</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label>Operational Tier</label>
-                <select id="filter-tier" onchange="window.applyLiveCatalogFilters()">
-                    <option value="all">All Tiers</option>
+                <label>Luxury Operational Theme</label>
+                <select id="filter-theme" onchange="applyLiveCatalogFilters()">
+                    <option value="all">All System Themes</option>
                     <option value="luxury">Luxury Elite</option>
                     <option value="premium">Premium Executive</option>
-                    <option value="professional">Professional</option>
-                    <option value="classic">Classic Heritage</option>
+                    <option value="professional">Professional Trek</option>
+                    <option value="classic">Classic Comfort</option>
                 </select>
             </div>
         </aside>
 
-        <main class="catalog-container" id="catalog-slider-portal">
-            <div class="items-grid" id="master-cards-renderer">
-                </div>
+        <div class="catalog-container" id="catalog-shell">
+            <div class="items-grid" id="destinations-cards-output"></div>
 
-            <section class="booking-tab-panel" id="booking-workspace-tab">
+            <div class="booking-tab-panel" id="booking-workspace-tab">
                 <div class="panel-header">
-                    <h3>Itinerary Customization Desk</h3>
-                    <span class="close-panel-btn" onclick="window.closeBookingWorkspaceTab()">&times;</span>
+                    <h3 id="target-itinerary-title">Complete Traveler Verification</h3>
+                    <span class="close-panel-btn" onclick="closeBookingWorkspaceTab()">&times;</span>
                 </div>
-                
                 <form id="master-booking-form">
                     <div class="form-scroll-zone">
+                        <div class="form-row">
+                            <div class="field-block">
+                                <label>Full Name</label>
+                                <input type="text" id="cust-name" required placeholder="As inside ID card">
+                            </div>
+                            <div class="field-block">
+                                <label>Email Address</label>
+                                <input type="email" id="cust-email" required placeholder="name@domain.com">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field-block">
+                                <label>Theme Level</label>
+                                <select id="priority-tier">
+                                    <option value="luxury">Luxury Elite Portfolio</option>
+                                    <option value="premium">Premium Executive Class</option>
+                                    <option value="professional">Professional Enterprise Tier</option>
+                                    <option value="classic">Classic Comfort Routine</option>
+                                </select>
+                            </div>
+                            <div class="field-block">
+                                <label>Headcount Parameters</label>
+                                <input type="number" id="cust-pax" min="1" value="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field-block">
+                                <label>Dietary Restrictions</label>
+                                <select id="priority-diet">
+                                    <option value="veg">Strict Vegetarian Options</option>
+                                    <option value="jain">Pure Jain Inclusions Protocol</option>
+                                    <option value="nonveg">Standard Mixed Multi-Cuisine</option>
+                                </select>
+                            </div>
+                            <div class="field-block">
+                                <label>Cuisine Variant Preference</label>
+                                <select id="priority-cuisine">
+                                    <option value="gujarati">Traditional Kathiyawadi / Gujarati</option>
+                                    <option value="northindian">North Indian Mughlai Dishes</option>
+                                    <option value="continental">Intercontinental Custom Dishes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field-block">
+                                <label>Settlement Architecture</label>
+                                <select id="priority-payment-type">
+                                    <option value="netbanking">Secure NetBanking Infrastructure</option>
+                                    <option value="upi">Instant Unified Payments Interface (UPI)</option>
+                                    <option value="creditcard">Corporate Credit / Debit Card Gateways</option>
+                                </select>
+                            </div>
+                            <div class="field-block">
+                                <label>Payment Window</label>
+                                <select id="priority-payment-window">
+                                    <option value="full">100% Upfront Direct Settlement</option>
+                                    <option value="token">50% Advance Token Guarantee Security</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="field-block full-width">
-                            <label>Selected Destination Package</label>
-                            <input type="text" id="form-target-package" readonly style="background:#e2e8f0; font-weight:700; color:var(--shyam-navy);">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="field-block">
-                                <label>Primary Traveler Name</label>
-                                <input type="text" id="cust-name" required placeholder="Full Name">
-                            </div>
-                            <div class="field-block">
-                                <label>Age Parameter</label>
-                                <input type="number" id="cust-age" required min="18" placeholder="Age">
+                            <label>Cell Phone Number (Verification Required)</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="tel" id="cust-phone" placeholder="+91 XXXXX XXXXX" required style="flex-grow: 1;">
+                                <button type="button" id="otp-sender-btn" onclick="triggerMobileOTPVerification()" style="padding: 0 15px; background: var(--shyam-navy); color: #fff; border:none; border-radius:4px; font-weight:700; font-size:11px; text-transform:uppercase; cursor:pointer;">Send OTP</button>
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="field-block">
-                                <label>Total Headcount Persons</label>
-                                <input type="number" id="cust-pax" required min="1" value="1">
-                            </div>
-                            <div class="field-block">
-                                <label>Target Outbound Date</label>
-                                <input type="date" id="cust-date" required>
-                            </div>
+                        <div class="otp-box-wrapper" id="otp-input-area">
+                            <label style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--shyam-blue); display:block; margin-bottom:5px;">Enter 6-Digit SMS Verification Pin</label>
+                            <input type="text" id="sms-verification-pin" placeholder="XXXXXX" maxlength="6" style="letter-spacing: 5px; text-align: center; font-size: 16px; font-weight: 700;">
                         </div>
 
-                        <div class="form-row">
-                            <div class="field-block">
-                                <label>Transit Fleet Priority</label>
-                                <select id="priority-transit" required>
-                                    <option value="Flight ✈️">Aviation Flight Liner ✈️</option>
-                                    <option value="Train 🚂">Express Rail Networks 🚂</option>
-                                    <option value="Ship 🛳️">Cruise Ship Liner 🛳️</option>
-                                    <option value="Bus 🚍">Volvo Coach Bus 🚍</option>
-                                </select>
-                            </div>
-                            <div class="field-block">
-                                <label>Hotel Accommodation Tier</label>
-                                <select id="priority-hotel" required>
-                                    <option value="5-Star ✨✨✨✨✨">5-Star Luxury Palace Tier ✨✨✨✨✨</option>
-                                    <option value="4-Star ✨✨✨✨">4-Star Premium Executive ✨✨✨✨</option>
-                                    <option value="3-Star ✨✨✨">3-Star Classic Heritage ✨✨✨</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="field-block">
-                                <label>Dietary Priority</label>
-                                <select id="priority-diet" required>
-                                    <option value="Pure Vegetarian (Veg)">Pure Vegetarian (Veg)</option>
-                                    <option value="Non-Vegetarian (Non-Veg)">Non-Vegetarian (Non-Veg)</option>
-                                </select>
-                            </div>
-                            <div class="field-block">
-                                <label>Cuisine Menu Profile</label>
-                                <select id="priority-cuisine" required>
-                                    <option value="Kathiyawadi Kitchen Spice">Kathiyawadi Local Flavor Special</option>
-                                    <option value="Authentic Gujarati Thali">Authentic Gujarati Thali</option>
-                                    <option value="North Indian Rich Palette">North Indian Masala Palette</option>
-                                    <option value="South Indian Traditional">South Indian Traditional Rice Hub</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="field-block">
-                                <label>Payment Settlement Mode</label>
-                                <select id="priority-payment-type" required>
-                                    <option value="Online Banking / UPI">Digital Unified Payment Gateway (UPI / Bank)</option>
-                                    <option value="Physical Cash Escrow Terminal">Physical Cash Escrow Ledger Terminal</option>
-                                </select>
-                            </div>
-                            <div class="field-block">
-                                <label>Settlement Window Schedule</label>
-                                <select id="priority-payment-window" required>
-                                    <option value="Pre-Departure Advance Clearance">Pre-Departure Advance Clearance Ledger</option>
-                                    <option value="Post-Trip Arriving Settlement">Post-Trip Arriving Settlement Escrow</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="field-block full-width" style="margin-top:10px;">
-                            <label>Verified Contact Mobile (+91 Format)</label>
-                            <div style="display:flex; gap:8px;">
-                                <input type="tel" id="cust-phone" placeholder="+919999999999" required>
-                                <button type="button" id="otp-sender-trigger" onclick="window.initiateMobileSMSVerification()" style="padding:10px 15px; background:var(--shyam-navy); color:var(--white); border:none; font-weight:700; border-radius:4px; font-size:12px; cursor:pointer; white-space:nowrap;">Send OTP</button>
-                            </div>
-                        </div>
-
-                        <div id="recaptcha-anchor-node"></div>
-
-                        <div class="otp-box-wrapper" id="otp-verification-container">
-                            <label style="font-size:11px; font-weight:700; color:var(--shyam-blue); display:block; margin-bottom:6px;">SMS CHALLENGE TOKEN KEY</label>
-                            <div style="display:flex; gap:8px;">
-                                <input type="text" id="otp-secure-token" placeholder="6-Digit Pin" maxlength="6">
-                                <button type="button" onclick="window.confirmMobileOTPSecurityToken()" style="padding:10px; background:#2ecc71; color:#fff; border:none; font-weight:700; border-radius:4px; cursor:pointer;">Verify</button>
-                            </div>
-                            <span id="otp-status-feedback" style="font-size:11px; font-weight:600; display:block; margin-top:6px; color:#e74c3c;">Awaiting mobile payload handshake verification...</span>
-                        </div>
+                        <div id="recaptcha-verifier-dock"></div>
+                        <button type="submit" class="action-submit-trigger">Authorize &amp; File Booking Data</button>
                     </div>
-
-                    <button type="submit" class="action-submit-trigger" id="master-form-submit-btn" disabled style="background:#b2f2bb; cursor:not-allowed;">Confirm &amp; Store Cloud Booking</button>
                 </form>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
 
     <footer>
-        &copy; 2026 Shyam Holidays Private Limited. Corporate Headquarters: Rajkot, Gujarat. Built with Error-Proof Synchronization.
+        &copy; 2026 Shyam Holidays Private Limited. Corporate Logistics HQ: Rajkot, Gujarat. Built and Synchronized Safely with Cloud Database Rules.
     </footer>
 
     <script src="destinations-data.js"></script>
 
     <script type="module">
-        import { auth, db } from "./firebase-auth.js";
-        import { RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { db, auth } from "./firebase-auth.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        let webConfirmationResult = null;
-        let mobileVerificationPassed = false;
+        let applicationVerifierNode = undefined;
+        let globalSMSConfirmationObj = undefined;
+        let selectedCircuitIdString = "";
 
-        // DEFENSIVE LAYOUT RENDERING GRID SYSTEM
-        window.applyLiveCatalogFilters = function() {
-            const domainValue = document.getElementById('filter-domain').value;
-            const tierValue = document.getElementById('filter-tier').value;
-            const targetGrid = document.getElementById('master-cards-renderer');
-            
-            if (!targetGrid) return;
-            targetGrid.innerHTML = "";
+        window.openBookingWorkspaceTab = function(tourId) {
+            if(!window.shyamGlobalRegistry) return;
+            const chosenAsset = window.shyamGlobalRegistry.find(item => item.id === tourId);
+            if(!chosenAsset) return;
 
-            if (window.shyamGlobalRegistry) {
-                window.shyamGlobalRegistry.forEach(tour => {
-                    // DEFENSIVE GATEWAYS: Default to empty strings or 0 to block uppercase-undefined crashes completely
-                    const tourDomain = tour.domain || "";
-                    const tourTier = tour.tier || "";
-                    const tourLabel = tour.label || "Premium Itinerary Package";
-                    const singleCost = tour.costPerPerson || 0;
-                    const groupCost = tour.costPerGroup || 0;
-                    const tourImage = tour.image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80";
-
-                    const matchDomain = (domainValue === 'all' || tourDomain === domainValue);
-                    const matchTier = (tierValue === 'all' || tourTier === tierValue);
-
-                    if (matchDomain && matchTier) {
-                        const card = document.createElement('div');
-                        card.className = `tour-card ${tourTier}`;
-                        card.innerHTML = `
-                            <div style="height:150px; background-image:url('${tourImage}'); background-size:cover; background-position:center;"></div>
-                            <div class="tour-info">
-                                <div>
-                                    <h4>${tourLabel}</h4>
-                                    <p style="font-size:11px; color:#666; text-transform:uppercase; font-weight:700; margin-top:4px;">
-                                        Theme: ${tourTier.toUpperCase()} • ${tourDomain.toUpperCase()}
-                                    </p>
-                                </div>
-                                <div class="tour-price-box">
-                                    <strong>Single Pax Rate:</strong> ₹${singleCost.toLocaleString('en-IN')}<br>
-                                    <strong>Group Fleet Rate:</strong> ₹${groupCost.toLocaleString('en-IN')}
-                                </div>
-                                <button class="book-btn" onclick="window.openBookingWorkspaceTab('${tourLabel.replace(/'/g, "\\'")}')">Book Itinerary Now</button>
-                            </div>
-                        `;
-                        targetGrid.appendChild(card);
-                    }
-                });
-            }
-        };
-
-        window.openBookingWorkspaceTab = function(packageName) {
-            document.getElementById('form-target-package').value = packageName.toUpperCase();
-            document.getElementById('catalog-slider-portal').classList.add('split-mode');
+            selectedCircuitIdString = chosenAsset.label;
+            document.getElementById('target-itinerary-title').innerText = `Booking: ${chosenAsset.label}`;
+            document.getElementById('catalog-shell').classList.add('split-mode');
             document.getElementById('booking-workspace-tab').style.display = "block";
             
-            mobileVerificationPassed = false;
-            document.getElementById('master-form-submit-btn').disabled = true;
-            document.getElementById('master-form-submit-btn').style.background = "#b2f2bb";
-            document.getElementById('master-form-submit-btn').style.cursor = "not-allowed";
-            document.getElementById('otp-verification-container').style.display = "none";
+            // Auto scroll container visibility viewport focus context
+            document.getElementById('booking-workspace-tab').scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
         window.closeBookingWorkspaceTab = function() {
-            document.getElementById('catalog-slider-portal').classList.remove('split-mode');
+            document.getElementById('catalog-shell').classList.remove('split-mode');
             document.getElementById('booking-workspace-tab').style.display = "none";
+            document.getElementById('otp-input-area').style.display = "none";
+            globalSMSConfirmationObj = undefined;
         };
 
-        window.initiateMobileSMSVerification = function() {
-            const rawPhone = document.getElementById('cust-phone').value.trim();
-            if (!rawPhone.startsWith('+')) {
-                alert("⚠️ Format Error:\nPlease input country code extensions (e.g., +91 for India) inside terminal contact inputs.");
+        window.applyLiveCatalogFilters = function() {
+            const chosenDomain = document.getElementById('filter-domain').value;
+            const chosenTheme = document.getElementById('filter-theme').value;
+            const displayOutputBox = document.getElementById('destinations-cards-output');
+            
+            displayOutputBox.innerHTML = "";
+            if(!window.shyamGlobalRegistry) return;
+
+            const targetOutputArray = window.shyamGlobalRegistry.filter(tour => {
+                const checkDomain = (chosenDomain === 'all' || tour.domain === chosenDomain);
+                const checkTheme = (chosenTheme === 'all' || tour.theme === chosenTheme);
+                return checkDomain && checkTheme;
+            });
+
+            if(targetOutputArray.length === 0) {
+                displayOutputBox.innerHTML = `<div style="grid-column:1/-1; padding:40px; text-align:center; font-weight:700; color:#888;">No package matching current structural filter matrix configuration rules found.</div>`;
                 return;
             }
 
-            if (!window.gateRecaptchaVerifier) {
-                window.gateRecaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-anchor-node', { 'size': 'invisible' });
-            }
-
-            const feedback = document.getElementById('otp-status-feedback');
-            document.getElementById('otp-verification-container').style.display = "block";
-            feedback.innerText = "Transmitting SMS dispatch requests over to secure server arrays...";
-            feedback.style.color = "var(--shyam-blue)";
-
-            signInWithPhoneNumber(auth, rawPhone, window.gateRecaptchaVerifier)
-                .then((result) => {
-                    window.webConfirmationResult = result;
-                    feedback.innerText = "📨 Verification code dispatched! Please check your mobile messages app.";
-                    feedback.style.color = "#27ae60";
-                }).catch((err) => {
-                    feedback.innerText = `Transmission Refused: ${err.message}`;
-                    feedback.style.color = "#c0392b";
-                });
+            targetOutputArray.forEach(tour => {
+                const unifiedCardElement = document.createElement('div');
+                unifiedCardElement.className = `tour-card ${tour.theme}`;
+                unifiedCardElement.innerHTML = `
+                    <div class="tour-info">
+                        <div>
+                            <h4>${tour.label}</h4>
+                            <p style="font-size:13px; color:#666; margin-top:4px;">Region: ${tour.domain.toUpperCase()} Horizons</p>
+                        </div>
+                        <div class="tour-price-box">
+                            Standard Rate: <strong>₹${tour.costPerPerson.toLocaleString('en-IN')}</strong> / head<br>
+                            Corporate Group Package: <strong>₹${tour.costPerGroup.toLocaleString('en-IN')}</strong> [4 Pax]
+                        </div>
+                        <button class="book-btn" onclick="openBookingWorkspaceTab('${tour.id}')">Book This Itinerary</button>
+                    </div>
+                `;
+                displayOutputBox.appendChild(unifiedCardElement);
+            });
         };
 
-        window.confirmMobileOTPSecurityToken = function() {
-            const pinCode = document.getElementById('otp-secure-token').value.trim();
-            const feedback = document.getElementById('otp-status-feedback');
-
-            if (pinCode.length !== 6) {
-                alert("Please provide the complete 6-digit cryptographic pin array.");
-                return;
-            }
-
-            window.webConfirmationResult.confirm(pinCode)
-                .then(() => {
-                    mobileVerificationPassed = true;
-                    feedback.innerText = "✅ Handshake Complete. Mobile endpoint safely authenticated & verified!";
-                    feedback.style.color = "#2ecc71";
-                    
-                    const btn = document.getElementById('master-form-submit-btn');
-                    btn.disabled = false;
-                    btn.style.background = "#2ecc71";
-                    btn.style.cursor = "pointer";
-                }).catch(() => {
-                    feedback.innerText = "❌ Security Token Mismatch. Audit inputs and retry.";
-                    feedback.style.color = "#e74c3c";
-                    mobileVerificationPassed = false;
-                });
-        };
-
-        document.getElementById('master-booking-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!mobileVerificationPassed) {
-                alert("🔒 System Intercept: Booking streams are blocked until OTP phone confirmation completes.");
+        window.triggerMobileOTPVerification = async function() {
+            const typedCellNumber = document.getElementById('cust-phone').value.trim();
+            if(!typedCellNumber.startsWith('+')) {
+                alert("Please declare cell format tracking details including standard country dial code prefixes (e.g. +91XXXXXXXXXX).");
                 return;
             }
 
             try {
+                if(!applicationVerifierNode) {
+                    applicationVerifierNode = new RecaptchaVerifier(auth, 'recaptcha-verifier-dock', { 'size': 'invisible' });
+                }
+                
+                alert("Opening cloud authentication link handshake channel... Please wait.");
+                const dispatchHandshake = await signInWithPhoneNumber(auth, typedCellNumber, applicationVerifierNode);
+                globalSMSConfirmationObj = dispatchHandshake;
+                
+                document.getElementById('otp-input-area').style.display = "block";
+                alert(`✔ SMS Handshake Active!\\nAn authentication passcode loop has been successfully dispatched to cell terminal ${typedCellNumber}.`);
+            } catch (err) {
+                alert(`Security Gateway Handshake Interrupted: ${err.message}`);
+                if(applicationVerifierNode) {
+                    applicationVerifierNode.clear();
+                    applicationVerifierNode = undefined;
+                }
+            }
+        };
+
+        document.getElementById('master-booking-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            if(!globalSMSConfirmationObj) {
+                alert("Cellular authorization is missing. Please type in your mobile number and perform a full 'Send OTP' verification process first.");
+                return;
+            }
+
+            const clientProvidedPin = document.getElementById('sms-verification-pin').value.trim();
+            if(clientProvidedPin.length !== 6) {
+                alert("Please enter the complete 6-digit verification code sent to your phone.");
+                return;
+            }
+
+            try {
+                alert("Validating secure phone network code entries...");
+                await globalSMSConfirmationObj.confirm(clientProvidedPin);
+                
                 const documentPayload = {
-                    packageSelected: document.getElementById('form-target-package').value,
+                    targetCircuitTrack: selectedCircuitIdString,
                     clientName: document.getElementById('cust-name').value.trim(),
-                    clientAge: parseInt(document.getElementById('cust-age').value),
-                    passengerCount: parseInt(document.getElementById('cust-pax').value),
-                    priorityDepartureDate: document.getElementById('cust-date').value,
-                    fleetTransitPriority: document.getElementById('priority-transit').value,
-                    lodgingHotelTier: document.getElementById('priority-hotel').value,
-                    dietaryType: document.getElementById('priority-diet').value,
+                    clientEmail: document.getElementById('cust-email').value.trim(),
+                    selectedTierSpecification: document.getElementById('priority-tier').value,
+                    passengerHeadcount: parseInt(document.getElementById('cust-pax').value),
+                    dietaryProfile: document.getElementById('priority-diet').value,
                     cuisineSelection: document.getElementById('priority-cuisine').value,
                     settlementMode: document.getElementById('priority-payment-type').value,
                     settlementWindow: document.getElementById('priority-payment-window').value,
@@ -479,25 +395,17 @@
                 };
 
                 await addDoc(collection(db, "forms"), documentPayload);
-                alert(`🎉 Cloud Matrix Synchronized!\nDear ${documentPayload.clientName}, your multi-step traveler details have been safely stored inside Firestore under collection ledger node 'forms'.`);
+                alert(`🎉 Cloud Matrix Synchronized!\\nDear ${documentPayload.clientName}, your multi-step traveler details have been safely stored inside Firestore under collection ledger node 'forms'.`);
                 
                 document.getElementById('master-booking-form').reset();
                 window.closeBookingWorkspaceTab();
             } catch (err) {
-                alert(`Cloud Connection Fault: ${err.message}`);
+                alert(`Cloud Connection or Verification Fault: ${err.message}`);
             }
         });
 
-        // TIMED DOM PARSING GATEWAY INITIALIZER
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                if (window.shyamGlobalRegistry) {
-                    window.applyLiveCatalogFilters();
-                } else {
-                    console.error("Master collection array could not be loaded into window memory context.");
-                }
-            }, 60);
-        });
+        // Initialize display content output parameters safely inside application runtime frame bounds
+        window.applyLiveCatalogFilters();
     </script>
 </body>
 </html>
