@@ -87,15 +87,15 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(0,37,77,0.4) 0%, rgba(0,21,43,0.6) 100%);
             z-index: 3; display: flex; flex-direction: column; justify-content: flex-start;
-            align-items: center; padding-top: 60px; text-align: center; color: var(--white);
+            align-items: center; padding-top: 40px; text-align: center; color: var(--white);
             padding-left: 20px; padding-right: 20px;
         }
         .slider-overlay h1 { font-size: 46px; text-transform: uppercase; font-weight: 800; text-shadow: 2px 3px 10px rgba(0,0,0,0.7); margin-bottom: 8px; }
         .slider-overlay p { font-size: 18px; text-shadow: 1px 2px 5px rgba(0,0,0,0.6); }
 
-        /* --- INTEGRATED FLUID SEARCH CONSOLE --- */
+        /* --- SEARCH SEARCH MODULE CONSOLE --- */
         .shyam-search-console {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 1100px; background: var(--white); border-radius: 8px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.35); z-index: 10; overflow: hidden; color: var(--text-dark);
         }
@@ -103,24 +103,24 @@
         .tab-trigger { padding: 18px 36px; font-weight: 700; font-size: 13px; text-transform: uppercase; color: #555; cursor: pointer; border-right: 1px solid #e2e8f0; flex-grow: 1; text-align: center; }
         .tab-trigger.active { background: var(--white); color: var(--shyam-blue); border-top: 3px solid var(--shyam-blue); }
         
-        /* Fixed Horizontal Flex Alignment for Desktop Controls Matrix */
+        /* Fixed Horizontal Alignment for Desktop Layout */
         .console-fields-row { 
             padding: 24px; 
-            display: flex;
+            display: flex; 
             flex-direction: row;
             align-items: flex-end; 
-            justify-content: space-between;
             gap: 12px; 
             width: 100%;
         }
         .field-cell { 
             display: flex; 
             flex-direction: column; 
-            flex: 1; /* Assigns equal spatial width allotments to inputs blocks */
+            flex: 1; 
+            min-width: 0; /* Prevents text inputs overflow clipping */
         }
-        .field-cell label { font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; margin-bottom: 6px; }
+        .field-cell label { font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; margin-bottom: 6px; text-align: left; }
         
-        /* Enforced Identical Layout Height and Box Dimensions Parameters */
+        /* Enforced Perfect Height Matching Rules */
         .field-cell input, .field-cell select, .btn-search-execute { 
             height: 48px; 
             padding: 0 14px; 
@@ -137,10 +137,11 @@
             background: var(--shyam-blue); 
             color: var(--white); 
             border: none; 
+            padding: 0 24px;
             font-weight: 700; 
             text-transform: uppercase; 
             cursor: pointer; 
-            flex: 0 0 160px; /* Locked precise execution button sizing matrix */
+            flex: 0 0 auto; /* Keeps button size natural on desktop monitors */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -154,22 +155,22 @@
         footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 80px; width: 100%; }
 
         /* =========================================================================
-           📱 AUTOMATED MEDIA RESPONSIVE FLUID MEDIA INTERCEPTS DECK
+           📱 AUTOMATED MEDIA RESPONSIVE FLUID DECK INTERCEPTS OVERRIDES
            ========================================================================= */
 
         @media (max-width: 1100px) {
             .console-fields-row {
-                flex-wrap: wrap; /* Permits field blocks wrapping gracefully */
+                flex-wrap: wrap; /* Allows wrapped spacing configurations */
             }
             .field-cell {
-                flex: 0 0 calc(50% - 6px); /* Transitions layout logic to 2 balanced columns pair rules */
+                flex: 0 0 calc(50% - 6px); /* 2 equal rows configurations across medium panels */
             }
             .btn-search-execute {
-                flex: 0 0 100%; /* Spans button to load full horizontal row widths dynamically */
-                margin-top: 6px;
+                flex: 0 0 100%; /* Forces execute search button to fill bottom row full width */
+                margin-top: 4px;
             }
             .hero-slider-viewport {
-                height: 620px; /* Extra spacing allocation to safely display stacked fields cards */
+                height: 640px; /* Comfort height cushion for fields wrap */
             }
         }
 
@@ -185,21 +186,26 @@
         @media (max-width: 600px) {
             .console-tabs { flex-direction: column; }
             .tab-trigger { border-right: none; border-bottom: 1px solid #e2e8f0; padding: 12px; }
+            
+            /* Converts horizontal rows layout into a beautiful smartphone stack flow */
             .console-fields-row {
                 flex-direction: column;
                 padding: 15px;
                 gap: 12px;
+                align-items: stretch;
             }
             .field-cell {
-                flex: 0 0 100%; /* Forces fields boxes to map neatly on simple independent full lines */
+                flex: 0 0 100%;
+                width: 100%;
             }
             .btn-search-execute {
                 margin-top: 4px;
+                width: 100%;
             }
             .hero-slider-viewport {
-                height: 720px; /* Maximum vertical clearance for fluid single stack phone view */
+                height: 740px; /* High spatial layout allocation for cell phone displays */
             }
-            .slider-overlay { padding-top: 30px; }
+            .slider-overlay { padding-top: 25px; }
             .shyam-search-console { bottom: 15px; }
         }
     </style>
@@ -268,7 +274,7 @@
                         <select id="pax-count">
                             <option value="1">1 Adult, 0 Children</option>
                             <option value="2">2 Adults, 1 Child</option>
-                            <option value="group">Corporate Group Deal Portfolio</option>
+                            <option value="group">Corporate Group Portfolio</option>
                         </select>
                     </div>
                     <button class="btn-search-execute" onclick="executeIntegratedSearch()">Search</button>
@@ -285,7 +291,7 @@
     </div>
 
     <footer>
-        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. Aligned with Premium Structural UI Specifications.
+        &copy; 2026 Shyam Holidays Private Limited. Corporate HQ: Rajkot, Gujarat. All Rights Reserved.
     </footer>
 
     <script src="destinations-data.js"></script>
