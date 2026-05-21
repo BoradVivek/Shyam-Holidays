@@ -84,7 +84,7 @@
         footer { background: #00162e; color: #a3b3c2; padding: 25px 20px; text-align: center; font-size: 13px; border-top: 4px solid var(--shyam-gold); margin-top: 80px; width: 100%; }
 
         /* =========================================================================
-           📱 AUTOMATED RESPONSIVE MOBILE BREAKPOINTS (MOBILE OVERLAY SYSTEM)
+            📱 AUTOMATED RESPONSIVE MOBILE BREAKPOINTS (MOBILE OVERLAY SYSTEM)
            ========================================================================= */
         @media (max-width: 1024px) {
             .workspace-grid { grid-template-columns: 1fr; padding: 0 15px; }
@@ -107,7 +107,7 @@
             .form-row { grid-template-columns: 1fr; }
             .field-block { grid-column: span 2 !important; }
             .sidebar-card { padding: 15px; }
-            .tour-image-box { height: 200px; } /* Clean visual balance for phones */
+            .tour-image-box { height: 200px; }
         }
     </style>
 </head>
@@ -269,14 +269,7 @@
         let globalSMSConfirmationObj = undefined;
         let selectedCircuitIdString = "";
 
-        // Unsplash mapping system fallback engine to source destination images flawlessly
-        const imageLibraryFallback = {
-            "agra": "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=500&q=80",
-            "kerala": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=500&q=80",
-            "leh": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=500&q=80",
-            "goa": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=500&q=80",
-            "default": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=500&q=80"
-        };
+        const globalDefaultFallbackImage = "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=500&q=80";
 
         window.openBookingWorkspaceTab = function(tourId) {
             if(!window.shyamGlobalRegistry) return;
@@ -317,19 +310,14 @@
             }
 
             targetOutputArray.forEach(tour => {
-                // Determine image mapping based on ID strings matching keyword registers safely
-                const idLower = tour.id.toLowerCase();
-                let imgSrc = imageLibraryFallback.default;
-                if (idLower.includes("agra")) imgSrc = imageLibraryFallback.agra;
-                else if (idLower.includes("kerala")) imgSrc = imageLibraryFallback.kerala;
-                else if (idLower.includes("leh") || idLower.includes("ladakh")) imgSrc = imageLibraryFallback.leh;
-                else if (idLower.includes("goa")) imgSrc = imageLibraryFallback.goa;
+                // FIXED: Reads the image directly from your destinations-data.js dataset property (tour.image)
+                let imgSrc = tour.image ? tour.image : globalDefaultFallbackImage;
 
                 const unifiedCardElement = document.createElement('div');
                 unifiedCardElement.className = `tour-card ${tour.theme}`;
                 unifiedCardElement.innerHTML = `
                     <div class="tour-image-box">
-                        <img src="${imgSrc}" alt="${tour.label}">
+                        <img src="${imgSrc}" alt="${tour.label}" onerror="this.src='${globalDefaultFallbackImage}'">
                     </div>
                     <div class="tour-info">
                         <div>
@@ -361,7 +349,7 @@
                 const dispatchHandshake = await signInWithPhoneNumber(auth, typedCellNumber, applicationVerifierNode);
                 globalSMSConfirmationObj = dispatchHandshake;
                 document.getElementById('otp-input-area').style.display = "block";
-                alert(`✔ SMS Handshake Active!\\nAn authentication passcode loop has been successfully dispatched to cell terminal ${typedCellNumber}.`);
+                alert(`✔ SMS Handshake Active!\nAn authentication passcode loop has been successfully dispatched to cell terminal ${typedCellNumber}.`);
             } catch (err) {
                 alert(`Security Gateway Handshake Interrupted: ${err.message}`);
                 if(applicationVerifierNode) {
@@ -401,7 +389,7 @@
                 };
 
                 await addDoc(collection(db, "forms"), documentPayload);
-                alert(`🎉 Cloud Matrix Synchronized!\\nDear ${documentPayload.clientName}, your multi-step traveler details have been safely stored inside Firestore.`);
+                alert(`🎉 Cloud Matrix Synchronized!\nDear ${documentPayload.clientName}, your multi-step traveler details have been safely stored inside Firestore.`);
                 document.getElementById('master-booking-form').reset();
                 window.closeBookingWorkspaceTab();
             } catch (err) {
